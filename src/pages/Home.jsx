@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import appwriteService from "../appwrite/config";
-import { Container, PostCard } from '../components'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import appwriteService from '../appwrite/config';
+import { Container, PostCard } from '../components';
 
 function Home() {
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState([]);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-    useEffect(() => { }, [])
-    appwriteService.getPosts([]).then((posts) => {
-        if (posts) {
-            setPosts(posts.documents)
+    useEffect(() => {
+        if (isAuthenticated) {
+            appwriteService.getPosts([]).then((posts) => {
+                if (posts) {
+                    setPosts(posts.documents);
+                }
+            });
+        } else {
+            // Reset posts when user logs out
+            setPosts([]);
         }
-    })
+    }, [isAuthenticated]);
 
-    if (posts.length === 0) {
-
+    if (!isAuthenticated) {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
@@ -26,21 +33,21 @@ function Home() {
                     </div>
                 </Container>
             </div>
-        )
+        );
     }
     return (
-        <div className='w-full py-8'>
+        <div className="w-full py-8">
             <Container>
-                <div className='flex flex-wrap'>
+                <div className="flex flex-wrap">
                     {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-1/4'>
+                        <div key={post.$id} className="p-2 w-1/4">
                             <PostCard {...post} />
                         </div>
                     ))}
                 </div>
             </Container>
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;
