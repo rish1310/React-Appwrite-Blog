@@ -123,11 +123,11 @@ function Header() {
                                     <button
                                         onClick={() => {
                                             setMobileMenuOpen(false);
-                                            // Handle logout action
+
                                         }}
                                         className='block px-4 py-2 text-gray-200 hover:bg-gray-700'
                                     >
-                                        Logout
+                                        <LogoutBtn />
                                     </button>
                                 </li>
                             )}
