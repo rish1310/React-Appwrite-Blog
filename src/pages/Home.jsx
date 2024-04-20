@@ -38,9 +38,10 @@ function Home() {
     return (
         <div className="w-full py-8">
             <Container>
+                <h1 className="text-3xl font-bold mb-6">Mega Blog</h1>
                 <div className="flex flex-wrap">
                     {posts.map((post) => (
-                        <div key={post.$id} className="p-2 w-1/4">
+                        <div key={post.$id} className="p-2 w-full md:w-1/4">
                             <PostCard {...post} />
                         </div>
                     ))}
